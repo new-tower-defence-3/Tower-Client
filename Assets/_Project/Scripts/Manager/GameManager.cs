@@ -103,6 +103,8 @@ public class GameManager : MonoSingleton<GameManager>
 
     public bool isLogin = false;
 
+    private Vector3 towerTempPos;
+
     public void OnGameStart()
     {
         isGameStart = true;
@@ -212,13 +214,11 @@ public class GameManager : MonoSingleton<GameManager>
         return tower;
     }
 
-    public Tower AddRandomTower()
+    public Vector3 AddRandomTower()
     {
         var position = CalcRandomTowerPosition();
-        var tower = AddTower(position.x, position.y, ePlayer.me);
-        tower.Init(DataManager.instance.GetData<TowerDataSO>("TOW00001"));
-        towers.Add(tower);
-        return tower;
+        towerTempPos = position;
+        return position;
     }
 
     public Vector3 CalcRandomTowerPosition()
@@ -240,7 +240,10 @@ public class GameManager : MonoSingleton<GameManager>
 
     public void SetTower(int towerId)
     {
-        towers.Last().towerId = towerId;
+        var tower = AddTower(towerTempPos.x, towerTempPos.y, ePlayer.me);
+        tower.Init(DataManager.instance.GetData<TowerDataSO>("TOW00001"));
+        tower.towerId = towerId;
+        towers.Add(tower);
     }
 
     public void OnGameEnd()

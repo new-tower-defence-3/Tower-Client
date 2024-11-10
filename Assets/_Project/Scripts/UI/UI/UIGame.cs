@@ -114,7 +114,7 @@ public class UIGame : UIBase
                 var tower = GameManager.instance.AddRandomTower();
                 GamePacket packet = new GamePacket();
                 packet.TowerPurchaseRequest = new C2STowerPurchaseRequest()
-                    { X = tower.transform.localPosition.x, Y = tower.transform.localPosition.y };
+                    { X = tower.x, Y = tower.y };
                 SocketManager.instance.Send(packet);
             }
             else
